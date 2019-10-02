@@ -23,7 +23,7 @@ V_Act_M = [];
 V_Q1_M = [];
 V_Q2_M = [];
 time = 0;
-alpha = 30;
+alpha = 150;
 
 %% load
 
@@ -47,8 +47,8 @@ while time < alpha+1
     P_G2 =(25.6*V_G2-13);
     P_D2 = (25.6*V_D2-13);
     P_Act = (25.6*V_Act-13);
-    Q1 = 20000/5.05*V_Q1;              %100ml/min = 5/3*10^-6 m3/s, 1 m3/s = 10^6 cm3/s
-    Q2 = 20000/5.05*V_Q2;
+    Q1 = 1000*V_Q1;              %100ml/min = 5/3*10^-6 m3/s, 1 m3/s = 10^6 cm3/s
+    Q2 = 1000*V_Q2;   %20000/5.05* for larger flowmeter
    
     P_G1_M(count) = P_G1;
     P_D1_M(count) = P_D1;
@@ -65,21 +65,27 @@ while time < alpha+1
     
     if time < 30; 
          value = 0;
+         value_count = 0;
     elseif time > 30 && time < 60;
-        value = 0.5;
+        value = 0.6;
+        value_count = 1;
     elseif time > 60 && time < 90; 
-        value = 1;    
+        value = 1.2;
+        value_count = 2;
     elseif time > 90 && time < 120; 
-        value = 1.5;   
+        value = 1.8; 
+        value_count = 3;
     elseif time > 120 && time < 150; 
-        value = 2;   
+        value = 2.4;   
+        value_count = 4;
     else
-        value = 2.5;  
+        value = 3;  
+        value_count = 5;
     end 
     
     writePWMVoltage(a,'D10',value);
     
-    if time > 10+30*(value) && time < 30*(value+1)
+    if time > 15+30*(value_count) && time < 30*(value_count+1)
         if rem(time,2) < 0.12
             count = count+1;
         end
@@ -91,20 +97,21 @@ writeDigitalPin(a,'D9',0);
     PDS1_M = P_D1_M-P_S1_M;
     PDS2_M = P_D2_M-0;
 Matrix = [timeM;P_G1_M;P_D1_M;P_S1_M;P_G2_M;P_D2_M;P_Act_M;Q1_M;Q2_M;PDS1_M;PDS2_M];    
-
+Matrix2 = Matrix; 
 %average values
 sumMatrix = zeros(11,1);
-AvgMatrix = zeros(11,value);
+AvgMatrix = zeros(11,5);
 Segment = 0;
-for i = 0:value
+for i = 0:4
     for b = 1:length(Matrix)
-    if Matrix(1,b) > 9.5+30*(i) && Matrix(1,b) < 30*(i+1)
-        Segment = Segment+1;
+    if Matrix(1,b) > 14.5+30*(i) && Matrix(1,b) < 30*(i+1)
         sumMatrix = Matrix(:,b)+sumMatrix;
+        Segment = Segment+1;
     end  
     end
     AvgMatrix(:,i+1) = sumMatrix./Segment;
+    Segment = 0;
     sumMatrix = zeros(11,1);
 end
-Matrix = AvgMatrix;
+Matrix = AvgMatrix; 
 end 

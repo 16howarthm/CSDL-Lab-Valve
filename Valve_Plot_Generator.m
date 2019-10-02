@@ -7,14 +7,19 @@ clear all
 close all
 numTri = 3;
 funcNum = 0;
-month = 9;
+month = 10;
 
-for g = 29:29        %day
+for g = 1:31        %day
     for j = 1:6     %experiment number
+        if month < 9
+            title = 'ValveArd0';
+        else 
+            title = 'ValveArd';
+        end
         if g > 9
-            fileN = strcat('ValveArd0',int2str(month),'-',int2str(g),'-19_',int2str(j));
+            fileN = strcat(title,int2str(month),'-',int2str(g),'-19_',int2str(j));
         else
-            fileN = strcat('ValveArd0',int2str(month),'-0',int2str(g),'-19_',int2str(j));
+            fileN = strcat(title,int2str(month),'-0',int2str(g),'-19_',int2str(j));
         end
         if exist(fileN,'file') ~= 0
             
@@ -117,6 +122,9 @@ for g = 29:29        %day
             elseif fileN == 'ValveArd09-29-19_2'
                 numTri = 1;
                 funcNum = 8;  
+           elseif fileN == 'ValveArd10-02-19_1'
+                numTri = 1;
+                funcNum = 8; 
             else
                 numTri = 1;
                 funcNum = 6;

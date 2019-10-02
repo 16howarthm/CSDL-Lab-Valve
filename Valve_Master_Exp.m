@@ -4,7 +4,7 @@ close all
 
 %% setup
 numTri = 1;        %number of trials for each experiment
-expNum = 2;   %experiment number for each day
+expNum = 1;   %experiment number for each day
 funcNum = 8;   %function number for experiment being run
 %Valve_Varying_Control_Pressure() and plot_VCP() = 1
 %Valve_Varying_Control_Pressure2() and plot_VCP2() = 2;
