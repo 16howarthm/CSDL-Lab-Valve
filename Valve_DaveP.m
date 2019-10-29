@@ -41,7 +41,7 @@ while time < alpha+15
     V_Q1 = readVoltage(a,'A6');
     V_Q2 = readVoltage(a,'A7');
     
-P_G1 = (25.6*V_G1-13);                % +101.325 to go from gauge to abs pressure
+    P_G1 = (25.6*V_G1-13);                % +101.325 to go from gauge to abs pressure
     P_D1 = (25.6*V_D1-13);                %6.89476* if want kPa
     P_S1 = (25.6*V_S1-13);
     P_G2 =(25.6*V_G2-13);

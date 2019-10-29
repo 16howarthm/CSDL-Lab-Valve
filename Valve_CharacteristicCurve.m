@@ -23,7 +23,7 @@ V_Act_M = [];
 V_Q1_M = [];
 V_Q2_M = [];
 time = 0;
-alpha = 150;
+alpha = 240;
 
 %% load
 
@@ -69,18 +69,27 @@ while time < alpha+1
     elseif time > 30 && time < 60;
         value = 0.6;
         value_count = 1;
-    elseif time > 60 && time < 90; 
+    elseif time > 60 && time < 90;
         value = 1.2;
         value_count = 2;
-    elseif time > 90 && time < 120; 
-        value = 1.8; 
+    elseif time > 90 && time < 120;
+        value = 1.8;
         value_count = 3;
-    elseif time > 120 && time < 150; 
-        value = 2.4;   
+    elseif time > 120 && time < 150;
+        value = 2.4;
         value_count = 4;
-    else
-        value = 3;  
+    elseif time > 150 && time < 180;
+        value = 3;
         value_count = 5;
+    elseif time > 180 && time < 210;
+        value = 3.6;
+        value_count = 6;
+    elseif time > 210 && time < 240;
+        value = 4.2;
+        value_count = 7;
+    else
+        value = 4.8;
+        value_count = 8;
     end 
     
     writePWMVoltage(a,'D10',value);
@@ -100,7 +109,7 @@ Matrix = [timeM;P_G1_M;P_D1_M;P_S1_M;P_G2_M;P_D2_M;P_Act_M;Q1_M;Q2_M;PDS1_M;PDS2
 Matrix2 = Matrix; 
 %average values
 sumMatrix = zeros(11,1);
-AvgMatrix = zeros(11,5);
+AvgMatrix = zeros(11,value_count+1);
 Segment = 0;
 for i = 0:4
     for b = 1:length(Matrix)

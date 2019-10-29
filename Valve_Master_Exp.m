@@ -39,7 +39,7 @@ Date = datestr(now,'mm dd yy HH:MM:SS');       %imports to text file
 DateDay = datestr(now,'mm-dd-yy');
 fileN = strcat('ValveArd',DateDay,'_',int2str(expNum));
 fileID = fopen(fileN,'a');
-fprintf(fileID,'%s %s %s %s %s %s %s %s %s %s %s\n','time[sec]','P_G1 [KPa]','P_D1 [KPa]','P_S1 [KPa]','P_G2 [KPa]','P_D2 [KPa]','P_Act [KPa]','Q1 [M^3/s]','Q2 [M^3/s]','P_DS1 [KPa]','P_DS2 [KPa]');
+fprintf(fileID,'%s %s %s %s %s %s %s %s %s %s %s\n','time[sec]','P_G1 [Psi]','P_D1 [Psi]','P_S1 [Psi]','P_G2 [Psi]','P_D2 [Psi]','P_Act [Psi]','Q1 [ml/min]','Q2 [ml/min]','P_DS1 [Psi]','P_DS2 [Psi]');
 fprintf(fileID,'%s\n',Date);     %trial header
 fprintf(fileID,'%4.4f %4.2f %4.2f %4.2f %4.2f %4.2f %4.2f %4.2f %4.2f %4.2f %4.2f\n',Matrix);  %values
 fclose(fileID);

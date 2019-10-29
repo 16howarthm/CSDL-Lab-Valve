@@ -9,9 +9,9 @@ numTri = 3;
 funcNum = 0;
 month = 10;
 
-for g = 1:31        %day
-    for j = 1:6     %experiment number
-        if month < 9
+for g = 7:7        %day
+    for j = 1:1     %experiment number
+        if month < 10
             title = 'ValveArd0';
         else 
             title = 'ValveArd';
@@ -127,7 +127,7 @@ for g = 1:31        %day
                 funcNum = 8; 
             else
                 numTri = 1;
-                funcNum = 6;
+                funcNum = 8;
             end
             
             fid = fopen(fileN,'r');

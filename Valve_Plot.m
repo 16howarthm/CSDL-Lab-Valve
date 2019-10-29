@@ -10,6 +10,7 @@ NamesChar = {};
 NamesP ={};
 NamesS = {};
 TrialList = {};
+color_array = {};
 for a = 1:m
     N1 = strcat('P_G1_',int2str(a));
     N2 = strcat('P_D1_',int2str(a));
@@ -37,10 +38,12 @@ for a = 1:m
     NamesTime3 = cellstr([N14,N15]);
     TrialList = [TrialList,Trial];
     NamesS = [NamesS,N1];  
+
 end 
     for i= 1:length(ValueMatrix{1,1})
-        NamesChar = [NamesChar,strcat('P_G1_',int2str(i))];
+        NamesChar = [NamesChar,strcat('P_G_',int2str(i))];
     end     
+    color_array = {[1,0,0],[0,1,0],[0,0,1],[1,0.6,0.5],[0,0,0],[1,0.3,1],[0,1,1],[0.5,0,0.8], [0.1,0,0.5],[0.8,0,0.5],[0.5,0,0.5]};
 
 %% plot
 if funcNum == 1 %Varying Control Pressure
@@ -528,43 +531,43 @@ elseif funcNum == 6 || funcNum == 7
 %     ylabel('Time [s]');
 %     title(timeFigName, 'Interpreter', 'none');
 %     set(gca,'FontSize',14);
-elseif funcNum == 8 %characteristic Curve
-    figure();        %Pds
-    hold on
-    for i=1:m
-        P_V_Plot = plot(ValueMatrix{i,10}(:,1),ValueMatrix{i,8}(:,1),'--x','MarkerSize',10);
-        %P_V_Plote = errorbar(ValueMatrix{i,10}(1:3:end,1),ValueMatrix{i,8}(1:3:end,1),-1.*ValueMatrixE{i,8}(1:3:end,1),ValueMatrixE{i,8}(1:3:end,1),-1.*ValueMatrixE{i,10}(1:3:end,1),ValueMatrixE{i,10}(1:3:end,1),'.','HandleVisibility','off','LineWidth',1);
-        if fileN == 'ValveArd07-22-19_1' | fileN == 'ValveArd07-22-19_2'
-            if i == 1 || i ==2 || i ==3
-                set(P_V_Plot,'Color',[1 0 0]);
-               % set(P_V_Plote,'Color',[1 0 0]);
-            elseif  i == 4 || i ==5 || i ==6
-                set(P_V_Plot,'Color',[0 1 0]);
-               % set(P_V_Plote,'Color',[0 1 0]);
-            elseif  i == 7 || i ==8 || i ==9
-                set(P_V_Plot,'Color',[0 0 1]);
-                %set(P_V_Plote,'Color',[0 0 1]);
-            else
-                set(P_V_Plot,'Color',[1 0 1]);
-               % set(P_V_Plote,'Color',[1 0 1]);
-            end
-        else
-                        set(P_V_Plot,'Color',[0 1-i./5 i./5]);
-          %  set(P_V_Plote,'Color',[0 1-i./5 i./5]);
-        end
-    end
-    hold off
-    leg = legend(NamesV,'Location','SouthEast');
-    set(leg,'Interpreter', 'none');
-    ylabel('Q_{DS1} [ml/min]');
-    xlabel('P_{DS1} [Psi]');
-    tit = title(strcat(fileN,'_1'));
-    set(tit,'Interpreter', 'none');
-    set(gca,'FontSize',14);
+
+elseif funcNum == 8 %characteristic Curve %Constant Rl line
+%     figure();        %Pds
+%     hold on
+%     for i=1:m
+%         P_V_Plot = plot(ValueMatrix{i,10}(:,1),ValueMatrix{i,8}(:,1),'--x','MarkerSize',10);
+%         %P_V_Plote = errorbar(ValueMatrix{i,10}(1:3:end,1),ValueMatrix{i,8}(1:3:end,1),-1.*ValueMatrixE{i,8}(1:3:end,1),ValueMatrixE{i,8}(1:3:end,1),-1.*ValueMatrixE{i,10}(1:3:end,1),ValueMatrixE{i,10}(1:3:end,1),'.','HandleVisibility','off','LineWidth',1);
+%         if fileN == 'ValveArd07-22-19_1' | fileN == 'ValveArd07-22-19_2'
+%             if i == 1 || i ==2 || i ==3
+%                 set(P_V_Plot,'Color',[1 0 0]);
+%                % set(P_V_Plote,'Color',[1 0 0]);
+%             elseif  i == 4 || i ==5 || i ==6
+%                 set(P_V_Plot,'Color',[0 1 0]);
+%                % set(P_V_Plote,'Color',[0 1 0]);
+%             elseif  i == 7 || i ==8 || i ==9
+%                 set(P_V_Plot,'Color',[0 0 1]);
+%                 %set(P_V_Plote,'Color',[0 0 1]);
+%             else
+%                 set(P_V_Plot,'Color',[1 0 1]);
+%                % set(P_V_Plote,'Color',[1 0 1]);
+%             end
+%         else
+%                         set(P_V_Plot,'Color',[1-i./8 0 i./8]);
+%           %  set(P_V_Plote,'Color',[0 1-i./5 i./5]);
+%         end
+%     end
+%     hold off
+%     leg = legend(NamesV,'Location','SouthEast');
+%     set(leg,'Interpreter', 'none');
+%     ylabel('Q_{DS1} [ml/min]');
+%     xlabel('P_{DS1} [Psi]');
+%     tit = title(strcat(fileN,'_1'));
+%     set(tit,'Interpreter', 'none');
+%     set(gca,'FontSize',14);
     
     %Pds where Ps = 0
-    charMat = [];
-    
+    charMat = [];  
     for l = 1:length(ValueMatrix{1,1})
         for q = 1:m
             charMat{l,1}(q,1) = ValueMatrix{q,3}(l,1);
@@ -572,15 +575,15 @@ elseif funcNum == 8 %characteristic Curve
         end
     end
     
-    figure();
+    figure();  %Constant Pg line
     hold on
     for i=1:length(ValueMatrix{1,1})
-        P_V2_Plot = plot(charMat{i,1}(:,1),charMat{i,2}(:,1),'--x','MarkerSize',10);
+        P_V2_Plot = plot(charMat{i,1}(:,1),charMat{i,2}(:,1),'--o','MarkerSize',12,'LineWidth',3);
         %P_V2_Plote = errorbar(ValueMatrix{i,3}(1:3:end,1),ValueMatrix{i,8}(1:3:end,1),-1.*ValueMatrixE{i,8}(1:3:end,1),ValueMatrixE{i,8}(1:3:end,1),-1.*ValueMatrixE{i,3}(1:3:end,1),ValueMatrixE{i,3}(1:3:end,1),'.','HandleVisibility','off','LineWidth',2);
         if fileN == 'ValveArd07-22-19_1' | fileN == 'ValveArd07-22-19_2'
             if i == 1 || i ==2 || i ==3
                 set(P_V2_Plot,'Color',[1 0 0]);
-               % set(P_V2_Plote,'Color',[1 0 0]);
+                % set(P_V2_Plote,'Color',[1 0 0]);
             elseif  i == 4 || i ==5 || i ==6
                 set(P_V2_Plot,'Color',[0 1 0]);
                 %set(P_V2_Plote,'Color',[0 1 0]);
@@ -592,28 +595,31 @@ elseif funcNum == 8 %characteristic Curve
                 %set(P_V2_Plote,'Color',[1 0 1]);
             end
         else
-                set(P_V2_Plot,'Color',[0 1-i./6 i./6]);
-          %  set(P_V2_Plote,'Color',[0 1-i./5 i./5]);
+            set(P_V2_Plot,'Color',color_array{i});
+            %  set(P_V2_Plote,'Color',[0 1-i./5 i./5]);
         end
+    end
+    for i=1:m
+        P_V_Plot = plot(ValueMatrix{i,3}(:,1),ValueMatrix{i,8}(:,1),'--','LineWidth',2);
+        set(P_V_Plot,'Color',[0.5 0.5 0.5]);
     end
     
     hold off
     leg = legend(NamesChar,'Location','SouthEast');
-    set(leg,'Interpreter', 'none');
+    %set(leg,'Interpreter', 'none');
     ylabel('Q_{DS1} [ml/min]');
     xlabel('P_{DS1} [Psi]');
     tit = title(strcat(fileN,'_2'));
     set(tit,'Interpreter', 'none');
     set(gca,'FontSize',14);
-    
-        %Pg
-    figure();
+        
+    figure(); %Pg
     hold on
     for i=1:m
         P_V2_Plot = plot(ValueMatrix{i,1}(:,1),ValueMatrix{i,2}(:,1),'--x','MarkerSize',10);
         %P_V2_Plote = errorbar(ValueMatrix{i,3}(1:3:end,1),ValueMatrix{i,8}(1:3:end,1),-1.*ValueMatrixE{i,8}(1:3:end,1),ValueMatrixE{i,8}(1:3:end,1),-1.*ValueMatrixE{i,3}(1:3:end,1),ValueMatrixE{i,3}(1:3:end,1),'.','HandleVisibility','off','LineWidth',2);
-        set(P_V2_Plot,'Color',[0 1-i./5 i./5]);
-         %  set(P_V2_Plote,'Color',[0 1-i./5 i./5]);
+        set(P_V2_Plot,'Color',color_array{i});
+        %  set(P_V2_Plote,'Color',[0 1-i./5 i./5]);
     end
     
     hold off
@@ -621,10 +627,25 @@ elseif funcNum == 8 %characteristic Curve
     set(leg,'Interpreter', 'none');
     ylabel('P_{G1} [psi]');
     xlabel('time [sec]');
-    tit = title(strcat(fileN,'_2'));
+    tit = title(strcat(fileN,'_3'));
     set(tit,'Interpreter', 'none');
     set(gca,'FontSize',14);
      
+    figure(); %3d plot
+    Matrix3 = {};
+    for i = 1:m
+      Matrix3{1,1}(:,i) = ValueMatrix{i,2}(:,1);
+      Matrix3{1,2}(:,i) = ValueMatrix{i,10}(:,1);
+      Matrix3{1,3}(:,i) = ValueMatrix{i,8}(:,1);
+    end
+        P_3_Plot = surf(Matrix3{1,1},Matrix3{1,2},Matrix3{1,3});
+    xlabel('P_{G} [psi]');
+    ylabel('P_{D} [psi]');
+    zlabel('Q_{DS} [psi]');
+    tit = title(strcat(fileN,'_4'));
+    set(tit,'Interpreter', 'none');
+    set(gca,'FontSize',14);
+    
 elseif funcNum == 9 %solenoid step
     
     figure();
@@ -673,7 +694,7 @@ elseif funcNum == 9 %solenoid step
         P_M4_Plot = plot(ValueMatrix{i,4}(50:200,1),ValueMatrix{i,8}(50:200,1),'LineWidth',3);
        % P_M4e_Plot = errorbar(ValueMatrix{i,4}(50:50:200,1),ValueMatrix{i,8}(50:50:200,1),-1.*ValueMatrixE{i,8}(50:50:200,1),ValueMatrixE{i,8}(50:50:200,1),-1.*ValueMatrixE{i,2}(50:50:200,1),ValueMatrixE{i,2}(50:50:200,1),'.','HandleVisibility','off','LineWidth',2);
         
-                    set(P_M4_Plot,'Color',[0 1-i./5 i./5]);
+                    set(P_M4_Plot,'Color',[1-i./5 0 i./5]);
           %  set(P_M4_Plote,'Color',[0 1-i./5 i./5]);
     end
     
