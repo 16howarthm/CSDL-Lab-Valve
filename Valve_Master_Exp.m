@@ -5,7 +5,7 @@ close all
 %% setup
 numTri = 1;        %number of trials for each experiment
 expNum = 1;   %experiment number for each day
-funcNum = 8;   %function number for experiment being run
+funcNum = 10;   %function number for experiment being run
 %Valve_Varying_Control_Pressure() and plot_VCP() = 1
 %Valve_Varying_Control_Pressure2() and plot_VCP2() = 2;
 %Valve_Hysteresis() and plot_H() = 3;
@@ -14,6 +14,7 @@ funcNum = 8;   %function number for experiment being run
 %Valve_DaveP() = 6;
 %Valve_DaveDP() = 7;
 %Valve_CharacteristicCurve() = 8;
+%MF_Valve_Sweep() = 10
 
 %% load
 Matrix = [];
@@ -31,8 +32,10 @@ elseif funcNum == 7
     Matrix = Valve_DaveDP();
 elseif funcNum == 8
     Matrix = Valve_CharacteristicCurve();
-else
+elseif funcNum == 9
     Matrix = Valve_Varying_Control_Pressure2();
+elseif funcNum == 10
+    Matrix = MF_Valve_Sweep();
 end
 
 Date = datestr(now,'mm dd yy HH:MM:SS');       %imports to text file
