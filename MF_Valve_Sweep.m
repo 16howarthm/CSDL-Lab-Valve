@@ -59,8 +59,8 @@ while time < alpha + 1            % main test loop
     V_G2 = readVoltage(a,'A3');
     V_D2 = readVoltage(a,'A4');
     V_Act = readVoltage(a,'A5');
-    V_Q1 = readVoltage(a,'A6');
-    V_Q2 = readVoltage(a,'A7');
+    V_Q1 = readVoltage(a,'A6');   % 
+    V_Q2 = readVoltage(a,'A7');   % 
     
     P_G1 = (25.6*V_G1-13);        % +101.325 to go from gauge to abs pressure
     P_D1 = (25.6*V_D1-13);        % 6.89476* if want kPa
