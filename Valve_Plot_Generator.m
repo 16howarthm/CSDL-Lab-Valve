@@ -7,22 +7,30 @@ clear all
 close all
 numTri = 3;
 funcNum = 0;
-month = 10;
+month = 12;
+Pcalib_M = 25.34; %[Psi]     6.89476* if want kPa
+Pcalib_b = -13.024;
+Qcalib_M = 1000; %100ml/min = 5/3*10^-6 m3/s, 1 m3/s = 10^6 cm3/s 20000/5.05 for larger flowmeter
+Qcalib_b = 0;
 
-for g = 7:7        %day
-    for j = 1:1     %experiment number
+for day = 1:1       %day
+    for expNum = 1:2     %experiment number
         if month < 10
             title = 'ValveArd0';
         else 
             title = 'ValveArd';
         end
-        if g > 9
-            fileN = strcat(title,int2str(month),'-',int2str(g),'-19_',int2str(j));
+        if day > 9
+            fileN = strcat(title,int2str(month),'-',int2str(day),'-19_',int2str(expNum));
         else
-            fileN = strcat(title,int2str(month),'-0',int2str(g),'-19_',int2str(j));
+            fileN = strcat(title,int2str(month),'-0',int2str(day),'-19_',int2str(expNum));
+        end
+        if month < 6
+            fileN = strcat(title,int2str(month),'-',int2str(day),'-20_',int2str(expNum));
+        else
+            fileN = strcat(title,int2str(month),'-0',int2str(day),'-19_',int2str(expNum));
         end
         if exist(fileN,'file') ~= 0
-            
             if fileN == 'ValveArd06-25-19_2'
                 numTri = 2;
                 funcNum = 0;
@@ -112,40 +120,29 @@ for g = 7:7        %day
                 funcNum = 6;
             elseif fileN == 'ValveArd09-23-19_6'
                 numTri = 1;
-                funcNum = 6;
-           elseif fileN == 'ValveArd09-25-19_1'
-                numTri = 1;
-                funcNum = 8;
-           elseif fileN == 'ValveArd09-29-19_1'
-                numTri = 1;
-                funcNum = 8; 
-            elseif fileN == 'ValveArd09-29-19_2'
-                numTri = 1;
-                funcNum = 8;  
-           elseif fileN == 'ValveArd10-02-19_1'
-                numTri = 1;
-                funcNum = 8; 
+                funcNum = 6; 
             else
                 numTri = 1;
                 funcNum = 8;
             end
             
+            %% separate text file
             fid = fopen(fileN,'r');
-            Og = textscan(fid,'%s %s %s %s %s %s %s %s %s %s %s');
+            Og = textscan(fid,'%s %s %s %s %s %s %s %s %s');
             [l,w] = size(Og);
             fclose(fid);
             idx = find(contains(Og{1},'time'));
             N = length(idx);
             New = cell(N,w);
             % find header location
-            for x = 1:N
-                for y = 1:w
-                    if x == N
-                        New{N,y} = Og{y}(idx(N)+3:end);
-                        New{N,y} = str2double(New{N,y});
+            for i = 1:N
+                for expNum = 1:w
+                    if i == N
+                        New{N,expNum} = Og{expNum}(idx(N)+3:end);
+                        New{N,expNum} = str2double(New{N,expNum});
                     else
-                        New{x,y} = Og{y}(idx(x)+3:idx(x+1)-1);
-                        New{x,y} = str2double(New{x,y});
+                        New{i,expNum} = Og{expNum}(idx(i)+3:idx(i+1)-1);
+                        New{i,expNum} = str2double(New{i,expNum});
                     end
                 end
             end
@@ -154,20 +151,20 @@ for g = 7:7        %day
             b = 100000000;
             [l,w] = size(New);
             for i = 1:l
-                for z = 1:w
-                    a = max(size(New{i,z}));
+                for expNum = 1:w
+                    a = max(size(New{i,expNum}));
                     if b > a
                         b = a;
                     end
                 end
             end
             for i = 1:l
-                for z = 1:w
-                    New{i,z} = New{i,z}(1:b,1);
+                for expNum = 1:w
+                    New{i,expNum} = New{i,expNum}(1:b,1);
                 end
             end
             
-            %% numTri
+            %% average and error
             NewMatrix = {};
             ValueMatrix = {};
             ValueMatrixE = {};
@@ -178,36 +175,75 @@ for g = 7:7        %day
             Rem = R;
             
             for i= 1:amount
-                for z = 1:11
+                for expNum = 1:9
                     for f = 1:numTri
                         if i == amount && R > 0
                             n = 1;
                             while n <= Rem
-                                NewMatrix{i,z}(:,n) = New{(i-1)*numTri+n,z}(:);
+                                NewMatrix{i,expNum}(:,n) = New{(i-1)*numTri+n,expNum}(:);
                                 n = n +1;
                             end
                         else
-                            NewMatrix{i,z}(:,f) = New{(i-1)*numTri+f,z}(:);
+                            NewMatrix{i,expNum}(:,f) = New{(i-1)*numTri+f,expNum}(:);
                         end
                     end
-                    ValueMatrix{i,z} = mean(NewMatrix{i,z}(:,:),2);
                     
-                    if z == 1
-                        ValueMatrixE{i,z} = 2.*std(NewMatrix{i,z}(:,:),0,2);
-                    elseif z == 2 || z==3 || z==4 || z==5 || z==6 || z==7 || z ==10 || z ==11
-                        ValueMatrixE{i,z} = sqrt((2).^2+2.*std(NewMatrix{i,z}(:,:),0,2).^2);
+                    ValueMatrix{i,expNum} = mean(NewMatrix{i,expNum}(:,:),2);
+                    if expNum == 1
+                        ValueMatrixE{i,expNum} = 2.*std(NewMatrix{i,expNum}(:,:),0,2);
+                    elseif expNum == 2 || expNum==3 || expNum==4 || expNum==5 || expNum==6 || expNum==7
+                        ValueMatrixE{i,expNum} = sqrt((2).^2+2.*std(NewMatrix{i,expNum}(:,:),0,2).^2);
                     else
-                        ValueMatrixE{i,z} = sqrt((17).^2+2.*std(NewMatrix{i,z}(:,:),0,2).^2);
+                        ValueMatrixE{i,expNum} = sqrt((17).^2+2.*std(NewMatrix{i,expNum}(:,:),0,2).^2);
                     end
                 end
             end
             
+            %% Calibrate
+            [m,c] = size(ValueMatrix);
+            for row = 1:m;
+                for i = 2:9;
+                        if i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||i == 7;
+                            ValueMatrix{row,i}(:,1) = Pcalib_M*ValueMatrix{row,i}(:,1)+Pcalib_b;
+                        elseif i == 8 || i == 9;
+                            ValueMatrix{row,i}(:,1) = Qcalib_M*ValueMatrix{row,i}(:,1)+Qcalib_b;
+                        end
+                end
+            end
+                  %% average end values for characteristic curve function
+            if funcNum == 8
+                Matrix2 = ValueMatrix;
+                sumMatrix = {};
+                value_count = ceil(ValueMatrix{1,1}(end,1)/30);
+                AvgMatrix = {};
+                row_count = 1;
+                   
+                for r = 1:m
+                    for i = 0:value_count-1
+                        for b = 1:length(Matrix2{1,1})
+                            if Matrix2{r,1}(b,1) > 14.5+30*(i) && Matrix2{r,1}(b,1) < 30*(i+1)
+                                for col = 1:c
+                                    sumMatrix{r,col}(row_count,1) = Matrix2{r,col}(b,1);
+                                end
+                                row_count = row_count+1;
+                            end
+                        end
+                        for col = 1:c
+                            AvgMatrix{r,col}(i+1,1) = sum(sumMatrix{r,col})./length(sumMatrix{r,col});
+                        end
+                        row_count = 1;
+                    end
+                end
+                ValueMatrix = AvgMatrix;
+            end 
+        
+            %% Plot
             Valve_Plot(ValueMatrix,ValueMatrixE,funcNum,fileN);
 
         end
     end
 end
 
-clear hit a count CurrentTime startTime time i fid fileID ans Date P_G1_Plot P_G2_Plot ...
+clear hit a count CurrentTime startTime time i fid fileID Date P_G1_Plot P_G2_Plot ...
     P_Act_Plot P_H_Plot P_V_Plot Date N1 N2 N3 N4 N5 N6 N7 N8 N9 N10 Names NamesH NamesT NamesV NamesH Trial ...
-    l w i j fileID fid P_S_Plot
+    l w i j fileID fid P_S_Plot sumMatrix

@@ -2,7 +2,7 @@
 clear all 
 close all
 
-a = arduino;
+a = arduino('/dev/cu.usbmodem14201','Uno');
 configurePin(a,'D2','DigitalOutput');
 configurePin(a,'D3','DigitalOutput');
 configurePin(a,'D4','DigitalOutput');

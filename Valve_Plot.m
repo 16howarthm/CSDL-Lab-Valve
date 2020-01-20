@@ -43,7 +43,14 @@ end
     for i= 1:length(ValueMatrix{1,1})
         NamesChar = [NamesChar,strcat('P_G_',int2str(i))];
     end     
-    color_array = {[1,0,0],[0,1,0],[0,0,1],[1,0.6,0.5],[0,0,0],[1,0.3,1],[0,1,1],[0.5,0,0.8], [0.1,0,0.5],[0.8,0,0.5],[0.5,0,0.5]};
+    for i = 1:30
+         a = rand; 
+         b = rand; 
+         c = rand;
+    color_array{1,i}(1,1) = a;
+    color_array{1,i}(1,2) = b;
+    color_array{1,i}(1,3) = c;
+    end
 
 %% plot
 if funcNum == 1 %Varying Control Pressure
@@ -635,7 +642,7 @@ elseif funcNum == 8 %characteristic Curve %Constant Rl line
     Matrix3 = {};
     for i = 1:m
       Matrix3{1,1}(:,i) = ValueMatrix{i,2}(:,1);
-      Matrix3{1,2}(:,i) = ValueMatrix{i,10}(:,1);
+      Matrix3{1,2}(:,i) = ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);
       Matrix3{1,3}(:,i) = ValueMatrix{i,8}(:,1);
     end
         P_3_Plot = surf(Matrix3{1,1},Matrix3{1,2},Matrix3{1,3});

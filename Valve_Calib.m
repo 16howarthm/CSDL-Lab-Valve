@@ -14,15 +14,15 @@ VinM = [];
 VoutM = [];
 count = 1;
 
- writeDigitalPin(a,'D8',0);      %open solenoid
-writeDigitalPin(a,'D9',0);      %open solenoid
-pause(1);
- writeDigitalPin(a,'D8',1);      %open solenoid
-writeDigitalPin(a,'D9',0);      %open solenoid
+%  writeDigitalPin(a,'D8',0);      %close solenoid
+% writeDigitalPin(a,'D9',0);      %close solenoid
+% pause(1);
+%  writeDigitalPin(a,'D8',1);      %open solenoid
+% writeDigitalPin(a,'D9',0);      %close solenoid
 
 % pause(5)
 
-while time < 60
+while time < 30
 
       %  writeDigitalPin(a,'D9',1);      %open solenoid  
 % writeDigitalPin(a,'D8',1);      %open solenoid
@@ -74,33 +74,33 @@ while time < 60
 %     else 
 %          value = 5-5*rem(time,15)/15; 
 %     end 
-if time < 20
-      writePWMVoltage(a,'D10',1);
-else 
-         writePWMVoltage(a,'D10',5);
-end 
+% if time < 15
+%       writePWMVoltage(a,'D10',1);
+% else 
+%          writePWMVoltage(a,'D10',5);
+% end 
        
- 
-    %% live graph 
-    hold on 
-    plot(timeM,P_G1_M);
-%     plot(timeM,P_D1_M);
-%     plot(timeM,P_S1_M);
-    hold off 
-    grid on; 
-    drawnow;
-    leg = legend('P_Q1');
-    xlabel('Time [s]');
-    ylabel('Q [m^3/s]');
-    title('Valve Master Experiment LiveFeed');
-    set(gca,'FontSize',14);
-    
-    
+%  
+%     %% live graph 
+%     hold on 
+%     plot(timeM,P_G1_M);
+% %     plot(timeM,P_D1_M);
+% %     plot(timeM,P_S1_M);
+%     hold off 
+%     grid on; 
+%     drawnow;
+%     leg = legend('P_Q1');
+%     xlabel('Time [s]');
+%     ylabel('Q [m^3/s]');
+%     title('Valve Master Experiment LiveFeed');
+%     set(gca,'FontSize',14);
+%     
+%     
 count = count+1;
 end
-clear V_G1 V_D1 V_S1 V_G2 V_D2 V_Act ...
-    ...
-    P_Act P_D1 P_D2 P_S2 P_S1 P_G1 P_G2 Q1 Q2 
+% clear V_G1 V_D1 V_S1 V_G2 V_D2 V_Act ...
+%     ...
+%     P_Act P_D1 P_D2 P_S2 P_S1 P_G1 P_G2 Q1 Q2 
  writeDigitalPin(a,'D8',0);      %open solenoid
 writeDigitalPin(a,'D9',0);      %open solenoid
 
