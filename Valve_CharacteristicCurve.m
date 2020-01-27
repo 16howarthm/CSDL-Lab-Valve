@@ -15,9 +15,10 @@ V_Act_M = [];
 V_Q1_M = [];
 V_Q2_M = [];
 time = 0;
-PgateFactor = 0.2;
+Pstep = 5;    % 0.2 -> 5psi
+Pmax = 40;
 i = 0;
-alpha = 4.8/PgateFactor*30;
+alpha = Pmax/Pstep*30;
 
 %% load
 
@@ -49,7 +50,7 @@ while time < alpha+2
     time = etime(CurrentTime,startTime);
     
     if time > 30*i && time < 30*(i+1); 
-        value = PgateFactor*i;
+        value = Pstep./25.*i;
         value_count = i; 
     else 
         i = i+1;
