@@ -6,31 +6,29 @@
 clear all
 close all
 
-numTri = 1;     %number of trials for each experiment
-funcNum = 8;    %function number for experiment being run
-month = 12;     %month experiment was run in
+month = 2;     %month experiment was run in
 
 Pcalib_M = 25.34; %[Psi]     6.89476* if want kPa
 Pcalib_b = -13.024;
 Qcalib_M = 1000; %100ml/min = 5/3*10^-6 m3/s, 1 m3/s = 10^6 cm3/s 20000/5.05 for larger flowmeter
 Qcalib_b = 0;
 
-for day = 1:1       %day
-    for expNum = 1:2     %experiment number for each day
+for day = 4:4       %day
+    for expNum = 1:1     %experiment number for each day
         if month < 10
             title = 'ValveArd0';
         else
             title = 'ValveArd';
         end
         if day > 9
-            fileN = strcat(title,int2str(month),'-',int2str(day),'-19_',int2str(expNum));
+            fileN = strcat(title,int2str(month),'-',int2str(day));
         else
-            fileN = strcat(title,int2str(month),'-0',int2str(day),'-19_',int2str(expNum));
+            fileN = strcat(title,int2str(month),'-0',int2str(day));
         end
         if month < 6
-            fileN = strcat(title,int2str(month),'-',int2str(day),'-20_',int2str(expNum));
+            fileN = strcat(fileN,'-20_',int2str(expNum));
         else
-            fileN = strcat(title,int2str(month),'-0',int2str(day),'-19_',int2str(expNum));
+            fileN = strcat(fileN,'-19_',int2str(expNum));
         end
         if exist(fileN,'file') ~= 0
             if fileN == 'ValveArd06-25-19_2'

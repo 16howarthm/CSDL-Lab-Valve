@@ -66,19 +66,19 @@ while time < 30
     Q2_M(count) = Q2;
     timeM(count) = time;
     
-    PDS1_M = P_D1_M-P_S1_M;
-    PDS2_M = P_D2_M-0;  
+%     PDS1_M = P_D1_M-P_S1_M;
+%     PDS2_M = P_D2_M-0;  
 %     if rem(time,30)<15  
 %         value = 5*rem(time,15)/15;
 %             
 %     else 
 %          value = 5-5*rem(time,15)/15; 
 %     end 
-% if time < 15
-%       writePWMVoltage(a,'D10',1);
-% else 
-%          writePWMVoltage(a,'D10',5);
-% end 
+if time < 15
+      writePWMVoltage(a,'D10',1);
+else 
+         writePWMVoltage(a,'D10',5);
+end 
        
 %  
 %     %% live graph 

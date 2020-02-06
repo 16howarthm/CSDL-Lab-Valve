@@ -43,12 +43,19 @@ for i= 1:length(ValueMatrix{1,1})
 end
 for i = 1:m
     %a = rand; b = rand; c = rand;
-    color_array{1,i}(1,1) = 0;
-    color_array{1,i}(1,2) = 1./i;
+    color_array{1,i}(1,1) = 1./i;
+    color_array{1,i}(1,2) = 0;
     color_array{1,i}(1,3) = 0;
 end
 
-Pds = ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1)   %Pds = Pd-Ps
+Pds = ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);   %Pds = Pd-Ps
+
+for i = 1:length(ValueMatrix{1,1})
+    %a = rand; b = rand; c = rand;
+    color_arrayValue{1,i}(1,1) = 1./i;
+    color_arrayValue{1,i}(1,2) = 1./i;
+    color_arrayValue{1,i}(1,3) = 0;
+end
 
 %% plot
 if funcNum == 1 %Varying Control Pressure
@@ -405,7 +412,7 @@ elseif funcNum == 8 %characteristic Curve %Constant Rl line
                 %set(P_V2_Plote,'Color',[1 0 1]);
             end
         else
-            set(P_V2_Plot,'Color',color_array{i});
+            set(P_V2_Plot,'Color',color_arrayValue{i});
             %  set(P_V2_Plote,'Color',color_array{i});
         end
     end
