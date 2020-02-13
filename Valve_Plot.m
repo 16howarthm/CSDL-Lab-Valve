@@ -395,7 +395,7 @@ elseif funcNum == 8 %characteristic Curve %Constant Rl line
         end
     end
     
-    figure();  %Constant Pg line
+    figure();  %Pds Qd
     hold on
     for i=1:length(ValueMatrix{1,1})
         P_V2_Plot = plot(charMat{i,1}(:,1),charMat{i,2}(:,1),'--o','MarkerSize',12,'LineWidth',3);
@@ -439,7 +439,7 @@ elseif funcNum == 8 %characteristic Curve %Constant Rl line
         %P_V2_Plote = errorbar(ValueMatrix{i,3}(1:3:end,1),ValueMatrix{i,8}(1:3:end,1),-1.*ValueMatrixE{i,8}(1:3:end,1),ValueMatrixE{i,8}(1:3:end,1),-1.*ValueMatrixE{i,3}(1:3:end,1),ValueMatrixE{i,3}(1:3:end,1),'.','HandleVisibility','off','LineWidth',2);
         set(P_V2_Plot,'Color',color_array{i});
         %  set(P_V2_Plote,'Color',color_array{i});
-    end 
+    end
     hold off
     leg = legend(NamesV,'Location','SouthEast');
     set(leg,'Interpreter', 'none');
@@ -449,20 +449,23 @@ elseif funcNum == 8 %characteristic Curve %Constant Rl line
     set(tit,'Interpreter', 'none');
     set(gca,'FontSize',14);
     
-    figure(); %3d plot
-    Matrix3 = {};
-    for i = 1:m
-        Matrix3{1,1}(:,i) = ValueMatrix{i,2}(:,1);
-        Matrix3{1,2}(:,i) = Pds;
-        Matrix3{1,3}(:,i) = ValueMatrix{i,8}(:,1);
+    if m>1
+        figure(); %3d plot
+        Matrix3 = {};
+        for i = 1:m
+            Matrix3{1,1}(:,i) = ValueMatrix{i,2}(:,1);
+            Matrix3{1,2}(:,i) = Pds;
+            Matrix3{1,3}(:,i) = ValueMatrix{i,8}(:,1);
+        end
+        P_3_Plot = surf(Matrix3{1,1},Matrix3{1,2},Matrix3{1,3});
+        xlabel('P_{G} [psi]');
+        ylabel('P_{D} [psi]');
+        zlabel('Q_{DS} [psi]');
+        tit = title(strcat(fileN,'_3'));
+        set(tit,'Interpreter', 'none');
+        set(gca,'FontSize',14);
+    else
     end
-    P_3_Plot = surf(Matrix3{1,1},Matrix3{1,2},Matrix3{1,3});
-    xlabel('P_{G} [psi]');
-    ylabel('P_{D} [psi]');
-    zlabel('Q_{DS} [psi]');
-    tit = title(strcat(fileN,'_3'));
-    set(tit,'Interpreter', 'none');
-    set(gca,'FontSize',14);
     
 elseif funcNum == 9 %solenoid step
     

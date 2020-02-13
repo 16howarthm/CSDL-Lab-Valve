@@ -13,8 +13,8 @@ Pcalib_b = -13.024;
 Qcalib_M = 1000; %100ml/min = 5/3*10^-6 m3/s, 1 m3/s = 10^6 cm3/s 20000/5.05 for larger flowmeter
 Qcalib_b = 0;
 
-for day = 4:4       %day
-    for expNum = 1:1     %experiment number for each day
+for day = 13:13       %day
+    for expNum = 2:2     %experiment number for each day
         if month < 10
             title = 'ValveArd0';
         else
