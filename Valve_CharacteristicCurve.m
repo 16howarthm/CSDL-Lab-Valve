@@ -15,8 +15,8 @@ V_Act_M = [];
 V_Q1_M = [];
 V_Q2_M = [];
 time = 0;
-Pstep = 5;    % 0.2 -> 5psi
-Pmax = 40;
+Pstep = 2.5;    % 0.2 -> 5psi
+Pmax = 50;
 i = 0;
 alpha = Pmax/Pstep*30;
 

@@ -5,13 +5,13 @@ close all
 %% setup
 
 %Calibration values
-Pcalib_M = 25.34; %[Psi]     6.89476* if want kPa
+Pcalib_M = 25.34; %[Psi]     6.89476* if want kPa 
 Pcalib_b = -13.024;
 Qcalib_M = 1000; %100ml/min = 5/3*10^-6 m3/s, 1 m3/s = 10^6 cm3/s 20000/5.05 for larger flowmeter
 Qcalib_b = 0;
 
 numTri = 1;        %number of trials for each experiment
-expNum = 2;   %experiment number for each day
+expNum = 1;   %experiment number for each day
 funcNum = 8;   %function number for experiment being run
 %Valve_Varying_Control_Pressure() and plot_VCP() = 1
 %Valve_Varying_Control_Pressure2() and plot_VCP2() = 2;
