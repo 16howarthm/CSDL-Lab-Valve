@@ -46,18 +46,18 @@ for i= 1:length(ValueMatrix{1,1})
 end
 for i = 1:m
     %a = rand; b = rand; c = rand;
-    color_array{1,i}(1,1) = 1./i;
+    color_array{1,i}(1,1) = 1-i./m;
     color_array{1,i}(1,2) = 0;
-    color_array{1,i}(1,3) = 0;
+    color_array{1,i}(1,3) = i./m;
 end
 
 Pds = ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);   %Pds = Pd-Ps
 
 for i = 1:length(ValueMatrix{1,1})
     %a = rand; b = rand; c = rand;
-    color_arrayValue{1,i}(1,1) = 1./i;
-    color_arrayValue{1,i}(1,2) = 1./i;
-    color_arrayValue{1,i}(1,3) = 0;
+    color_arrayValue{1,i}(1,1) = 1-i./m;
+    color_arrayValue{1,i}(1,2) = 0;
+    color_arrayValue{1,i}(1,3) = i./m;
 end
 
 %% plot
