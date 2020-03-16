@@ -51,13 +51,11 @@ for i = 1:m
     color_array{1,i}(1,3) = i./m;
 end
 
-Pds = ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);   %Pds = Pd-Ps
-
 for i = 1:length(ValueMatrix{1,1})
     %a = rand; b = rand; c = rand;
-    color_arrayValue{1,i}(1,1) = 1-i./m;
+    color_arrayValue{1,i}(1,1) = 1-i./length(ValueMatrix{1,1});
     color_arrayValue{1,i}(1,2) = 0;
-    color_arrayValue{1,i}(1,3) = i./m;
+    color_arrayValue{1,i}(1,3) = i./length(ValueMatrix{1,1});
 end
 
 %% plot
@@ -66,7 +64,7 @@ if funcNum == 1 %Varying Control Pressure
     figure();
     hold on
     for i=1:m
-        P_V_Plot = plot(Pds,ValueMatrix{i,8}(:,1),'-o','LineWidth',2);
+        P_V_Plot = plot(ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);,ValueMatrix{i,8}(:,1),'-o','LineWidth',2);
         if fileN == 'ValveArd07-22-19_1' || fileN == 'ValveArd07-22-19_2'
             if i == 1 || i ==2 || i ==3
                 set(P_V_Plot,'Color',[1 0 0]);
@@ -122,7 +120,7 @@ elseif funcNum == 2 %Varying Control Pressure 2
     figure();
     hold on
     for i=1:m
-        P_V_Plot = plot(Pds,ValueMatrix{i,8}(:,1),'LineWidth',2);
+        P_V_Plot = plot(ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);,ValueMatrix{i,8}(:,1),'LineWidth',2);
         % P_V_Plote = errorbar(ValueMatrix{i,10}(1:100:end,1),ValueMatrix{i,8}(1:100:end,1),-1.*ValueMatrixE{i,8}(1:100:end,1),ValueMatrixE{i,8}(1:100:end,1),-1.*ValueMatrixE{i,10}(1:100:end,1),ValueMatrixE{i,10}(1:100:end,1),'.','HandleVisibility','off','LineWidth',2);
         set(P_V_Plot,'Color',color_array{i});
         %  set(P_V_Plote,'Color',color_array{i});
@@ -451,10 +449,10 @@ elseif funcNum == 8 %characteristic Curve %Constant Rl line
     
     if m>1
         figure(); %3d plot
-        Matrix3 = {};
+        Matrix3 = {};  %Pg, Pds, Q1
         for i = 1:m
             Matrix3{1,1}(:,i) = ValueMatrix{i,2}(:,1);
-            Matrix3{1,2}(:,i) = Pds;
+            Matrix3{1,2}(:,i) = ValueMatrix{i,3}(:,1) - ValueMatrix{i,4}(:,1);;
             Matrix3{1,3}(:,i) = ValueMatrix{i,8}(:,1);
         end
         P_3_Plot = surf(Matrix3{1,1},Matrix3{1,2},Matrix3{1,3});
